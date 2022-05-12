@@ -1,0 +1,201 @@
+<html>
+    
+<!-- Mirrored from lsxs.me/torus-tunnel by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 May 2022 08:54:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <<title>LSXS | Torus Tunnel</title>
+     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VPBLJ18H17"></script>
+               <script>
+                 window.dataLayer = window.dataLayer || [];
+                 function gtag(){window.dataLayer.push(arguments);}
+                 gtag('js', new Date());
+
+                 gtag('config', 'G-VPBLJ18H17');
+               </script>
+                 <script>
+                                         		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                                                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                                                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                                                 })(window,document,'script','../www.google-analytics.com/analytics.js','ga');
+
+                                                 ga('create', 'G-VPBLJ18H17', 'auto');
+                                                 ga('send', 'pageview');
+                                                </script>
+     <link rel="icon" href="images/favicon3.ico" type="image/gif" >
+        <style>
+            body {
+  margin: 0;
+  padding: 0;
+  background: #111;
+  overflow: hidden;
+}
+
+        </style>
+        <script src="../cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+
+        </script>
+        <script src="../cdnjs.cloudflare.com/ajax/libs/three.js/r50/three.min.js">
+
+        </script>
+    </head>
+    <body>
+    
+        
+        <div id="container"></div>
+<script src="../cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+<p hidden id="interval" hidden>0</p>
+    </body>
+    <script>
+        var $container = $('#container');
+var renderer = new THREE.WebGLRenderer({antialias: true});
+var camera = new THREE.PerspectiveCamera(80,window.innerWidth/window.innerHeight,0.1,10000);
+var scene = new THREE.Scene();
+var mouseX = 0, mouseY = 0;
+
+// Added that code Implementation from a forked one 
+// https://codepen.io/teddarcuri/pen/jbEbyZ
+// Many Thanks to @teddarcuri
+// Uncomment code below for tunnel steering!
+// You will fly through the walls like in Mario Kart, haha.
+// var windowHalfX = window.innerWidth / 2;
+// var windowHalfY = window.innerHeight / 2;
+// document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+scene.add(camera);
+renderer.setSize(window.innerWidth, window.innerHeight);
+$container.append(renderer.domElement);
+
+// 
+window.addEventListener( 'resize', onWindowResize, false );
+/////////////////////////////////////////
+
+// Console
+var Controls = function() {
+  this.speed = Math.random() * 10;
+  this.rotation = Math.random() * 15 ;
+};
+
+var text = new Controls();
+//     gui = new dat.GUI();
+//     gui.add(text, 'speed', 0, 10);
+//     gui.add(text, 'rotation',0,15);
+
+/////////////////////////////////////////
+
+// Normalmaterial
+var normalMaterial = new THREE.MeshNormalMaterial({});
+
+
+// Torus
+function Torus(f){
+  this.b = new THREE.Mesh(new THREE.TorusGeometry( 160, 75, 2, 13),normalMaterial);
+  this.b.position.x = 57*Math.cos(f);
+  this.b.position.y = 57*Math.sin(f);
+  this.b.position.z = f*1.25;
+  this.b.rotation.z = f*0.03;
+}
+		
+var numTorus = 80;
+var tabTorus = [];
+for(var i=0; i<numTorus; i++){
+  tabTorus.push(new Torus(-i*13));
+  scene.add(tabTorus[i].b);
+}	
+
+
+// Update
+function update(){
+  for(var i=0; i<numTorus; i++){
+    tabTorus[i].b.position.z+=text.speed;
+    tabTorus[i].b.rotation.z+=i*text.rotation/10000;
+    if(tabTorus[i].b.position.z>0)
+    {
+      tabTorus[i].b.position.z=-1000;
+    }
+  }
+}
+
+function onWindowResize() {
+
+    windowHalfX = window.innerWidth / 2;
+    windowHalfY = window.innerHeight / 2;
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+}
+
+function onDocumentMouseMove(event) {
+    mouseX = ( event.clientX - windowHalfX );
+    mouseY = ( event.clientY - windowHalfY );
+}
+
+
+
+// Render
+function render() {
+  requestAnimationFrame( render);
+
+  camera.position.x += ( mouseX - camera.position.x ) * .05;
+  camera.position.y += ( - mouseY - camera.position.y ) * .05;
+
+  renderer.render(scene, camera);
+  update();
+}
+
+render();
+
+    </script>
+    
+<p hidden id="interval">0</p>
+<script>
+    window.addEventListener('load', (event) => {
+        document.body.style.cursor = "none";
+        load();
+    });
+</script>
+
+        <script>
+              window.addEventListener('load', (event) => {
+	//$('#alias').fadeIn('slow');
+	
+	setTimeout(() => {	
+		$('#alias').fadeOut('slow');
+		//$('#alias').fadeIn('slow');	
+	}, 6000);
+	
+	
+});
+                
+            </script>
+           </body>
+           <script>
+(function() {
+    var mouseTimer = null, cursorVisible = true;
+
+    function disappearCursor() {
+        mouseTimer = null;
+        document.body.style.cursor = "none";
+        cursorVisible = false;
+    }
+
+    document.addEventListener('mousemove',( ) =>  {
+		console.log('ticking');
+        if (mouseTimer) {
+            window.clearTimeout(mouseTimer);
+        }
+        if (!cursorVisible) {
+            document.body.style.cursor = "default";
+            cursorVisible = true;
+        }
+        mouseTimer = window.setTimeout(disappearCursor, 5000);
+    })  
+})();
+		</script>
+        
+    
+    
+
+<!-- Mirrored from lsxs.me/torus-tunnel by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 May 2022 08:54:37 GMT -->
+</html>
